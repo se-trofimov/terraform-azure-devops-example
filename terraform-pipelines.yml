@@ -17,9 +17,5 @@ stages:
          displayName: Install Terraform
          inputs:
            terraformVersion: latest
-       - task: ManualIntervention@8
-         inputs:
-           onTimeout: reject
-           instructions: qqq
           
     
