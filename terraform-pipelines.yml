@@ -42,6 +42,6 @@ stages:
       steps:
         - task: CopyFiles@2
           inputs:
-            SourceFolder: '*'
+            SourceFolder: '_buildOutput/**'
             Contents: '**'
             TargetFolder: 'terraform'
