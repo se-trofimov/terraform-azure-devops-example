@@ -1,5 +1,6 @@
 trigger: 
   - releases/*
+  - main
 
 variables:
   - group: terraform-environments
@@ -8,7 +9,7 @@ pool:
   vmImage: ubuntu-latest
 
 stages:
-- stage: terraform_install
+- stage: terraform_validate
   displayName: Install terraform and validate code
   jobs: 
    - job: 
@@ -18,55 +19,18 @@ stages:
          displayName: Install Terraform
          inputs:
            terraformVersion: latest
-
-- stage: terraform_deploy
-  displayName: terraform validate code and deploy
-  jobs:  
-    - job: dev1_deploy
-      displayName: 'dev1-deploy'
-      pool: server
-      continueOnError: false
-      steps:
-        - task: ManualValidation@0
-          inputs: 
-            notifyUsers:
-            instructions: 'are you sure you want to deplou to dev1?'
-            onTimeout: 'reject'
-    - job: dev2_deploy
-      displayName: 'dev2-deploy'
-      pool: server
-      continueOnError: false
-      steps:
-       - task: ManualValidation@0
-         inputs: 
-           notifyUsers:
-           instructions: 'are you sure you want to deplou to dev1?'
-           onTimeout: 'reject'
-    - job: stage_deploy
-      displayName: 'stage-deploy'
-      pool: server
-      continueOnError: false
-      steps:
-       - task: ManualValidation@0
-         inputs: 
-           notifyUsers:
-           instructions: 'are you sure you want to deplou to dev1?'
-           onTimeout: 'reject'
-    - job: production_deploy
-      displayName: 'production-deploy'
-      pool: server
-      continueOnError: false
-      steps:
-       - task: ManualValidation@0
-         inputs: 
-           notifyUsers:
-           instructions: 'are you sure you want to deplou to dev1?'
-           onTimeout: 'reject'
-    
-    - job: echo 
-      displayName: echo
-      dependsOn: dev1_deploy
-      steps:
-       - task: CmdLine@2
+       - task: TerraformTaskV4@4
+         displayName: 'Terraform Init'
          inputs:
-          script: echo Hello world from dev1
+          provider: 'azurerm'
+          command: 'init'
+          backendServiceArm: $(vg-azure-subscription)
+          backendAzureRmResourceGroupName: 'none'
+          backendAzureRmStorageAccountName: 'none'
+          backendAzureRmContainerName: 'none'
+          backendAzureRmKey: 'none'
+       - task: TerraformTaskV4@4
+         displayName: 'Terraform Validate'
+         inputs:
+          provider: 'azurerm'
+          command: 'validate'
