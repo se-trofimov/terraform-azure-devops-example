@@ -21,6 +21,10 @@ stages:
            terraformVersion: latest
        - task: TerraformTaskV4@4
          inputs:
+           provider: 'azurerm'
+           command: 'init'
+       - task: TerraformTaskV4@4
+         inputs:
           provider: 'azurerm'
           command: 'validate'
       
