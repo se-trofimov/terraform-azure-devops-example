@@ -8,7 +8,7 @@ pool:
   vmImage: ubuntu-latest
 
 stages:
-- stage: terraform_install
+- stage: terraform_validate
   displayName: Install terraform and validate code
   jobs: 
    - job: 
@@ -18,26 +18,10 @@ stages:
          displayName: Install Terraform
          inputs:
            terraformVersion: latest
-
-- stage: terraform_deploy
-  displayName: terraform validate code and deploy
-  jobs:  
-   - job: dev1_deploy
-     displayName: 'dev1-deploy'
-     pool: server
-     continueOnError: false
-     steps:
-       - task: ManualValidation@0
-         inputs: 
-           notifyUsers:
-           instructions: 'are you sure you want to deplou to dev1?'
-           onTimeout: 'reject'
-   - job: echo 
-     displayName: echo
-     dependsOn: dev1_deploy
-     steps:
-       - task: CmdLine@2
+       - task: TerraformTaskV4@4
          inputs:
-          script: echo Hello world
+          provider: 'azurerm'
+          command: 'validate'
+      
      
     
