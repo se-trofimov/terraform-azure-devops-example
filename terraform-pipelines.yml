@@ -1,0 +1,24 @@
+trigger: none
+
+variables:
+  - group: terraform-environments
+
+pool:
+  vmImage: ubuntu-latest
+
+stages:
+- stage: terraform_validate
+  displayName: Install terraform and validate code
+  jobs: 
+   - job: 
+     continueOnError: false
+     steps:
+       - task: TerraformInstaller@0
+         displayName: Install Terraform
+         inputs:
+           terraformVersion: latest
+       - task: ManualIntervention@8
+         inputs:
+          onTimeout: reject
+          
+    
