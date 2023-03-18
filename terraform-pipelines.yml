@@ -1,5 +1,6 @@
 trigger: 
   - releases/*
+  - main
 
 variables:
   - group: terraform-environments
