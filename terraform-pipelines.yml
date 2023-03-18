@@ -17,16 +17,5 @@ stages:
          displayName: Install Terraform
          inputs:
            terraformVersion: latest
-
-- stage: terraform_validate
-  displayName: Validate code
-  jobs: 
-   - job: 
-     continueOnError: false
-     steps:
-       - task: ManualIntervention@8
-   - job: 
-     continueOnError: false
-     steps:
-       - task: ManualIntervention@8
+     
     
