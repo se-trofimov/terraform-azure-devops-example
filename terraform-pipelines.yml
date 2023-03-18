@@ -20,18 +20,17 @@ stages:
          inputs:
            terraformVersion: latest
        - task: TerraformTaskV4@4
+         displayName: 'Terraform Init'
          inputs:
            provider: 'azurerm'
            command: 'init'
-           backendServiceArm: 'Visual Studio Professional Subscription (d47d357f-a6d6-4ed4-aaaa-e691f75b278e)'
-           backendAzureRmResourceGroupName: 'terraform-backend-rg'
-           backendAzureRmStorageAccountName: 'eshopterraformbackendsa'
-           backendAzureRmContainerName: 'terraform-state-dev1-container'
+           backendServiceArm: 'none'
+           backendAzureRmResourceGroupName: 'none'
+           backendAzureRmStorageAccountName: 'none'
+           backendAzureRmContainerName: 'none'
            backendAzureRmKey: 'none'
        - task: TerraformTaskV4@4
+         displayName: 'Terraform Validate'
          inputs:
           provider: 'azurerm'
           command: 'validate'
-      
-     
-    
