@@ -63,12 +63,10 @@ stages:
            instructions: 'are you sure you want to deplou to dev1?'
            onTimeout: 'reject'
     
-    job: echo 
-     displayName: echo
-     dependsOn: dev1_deploy
-     steps:
+    - job: echo 
+      displayName: echo
+      dependsOn: dev1_deploy
+      steps:
        - task: CmdLine@2
          inputs:
           script: echo Hello world from dev1
-     
-    
