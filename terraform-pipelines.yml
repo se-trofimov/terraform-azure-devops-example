@@ -34,3 +34,14 @@ stages:
          inputs:
           provider: 'azurerm'
           command: 'validate'
+
+- stage: publish_artefact
+  displayName: 'Publish terraform files'
+  jobs:
+    - job:
+      steps:
+        - task: CopyFiles@2
+          inputs:
+            SourceFolder: '*'
+            Contents: '**'
+            TargetFolder: 'terraform'
