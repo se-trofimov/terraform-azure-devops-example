@@ -45,7 +45,7 @@ stages:
             script: 'ls'
         - task: CopyFiles@2
           inputs:
-            SourceFolder: 'src/*'
+            SourceFolder: 'src'
             Contents: '**'
             TargetFolder: '$(System.ArtifactsDirectory)/terraform'
         - task: PublishBuildArtifacts@1
