@@ -19,6 +19,7 @@ stages:
            terraformVersion: latest
        - task: ManualIntervention@8
          inputs:
-          onTimeout: reject
+           onTimeout: reject
+           instructions: qqq
           
     
