@@ -33,7 +33,7 @@ stages:
             instructions: 'are you sure you want to deplou to dev1?'
             onTimeout: 'reject'
     - job: dev2_deploy
-      displayName: 'dev1-deploy'
+      displayName: 'dev2-deploy'
       pool: server
       continueOnError: false
       steps:
@@ -43,7 +43,7 @@ stages:
            instructions: 'are you sure you want to deplou to dev1?'
            onTimeout: 'reject'
     - job: stage_deploy
-      displayName: 'dev1-deploy'
+      displayName: 'stage-deploy'
       pool: server
       continueOnError: false
       steps:
@@ -53,7 +53,7 @@ stages:
            instructions: 'are you sure you want to deplou to dev1?'
            onTimeout: 'reject'
     - job: production_deploy
-      displayName: 'dev1-deploy'
+      displayName: 'production-deploy'
       pool: server
       continueOnError: false
       steps:
