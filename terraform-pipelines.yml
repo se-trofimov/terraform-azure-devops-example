@@ -43,7 +43,7 @@ stages:
         - task: CopyFiles@2
           inputs:
             Contents: '**'
-            TargetFolder: 'terraform'
+            TargetFolder: '$(System.ArtifactsDirectory)/terraform'
         - task: PublishBuildArtifacts@1
           inputs:
             PathtoPublish: '$(Build.ArtifactStagingDirectory)'
