@@ -24,7 +24,7 @@ stages:
          inputs:
           provider: 'azurerm'
           command: 'init'
-          backendServiceArm: 'Visual Studio Professional Subscription (d47d357f-a6d6-4ed4-aaaa-e691f75b278e)'
+          backendServiceArm: $(vg-azure-subscription)
           backendAzureRmResourceGroupName: 'none'
           backendAzureRmStorageAccountName: 'none'
           backendAzureRmContainerName: 'none'
