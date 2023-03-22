@@ -9,7 +9,6 @@ resource "azurerm_service_plan" "eshop_web_ui_plan" {
   resource_group_name = azurerm_resource_group.webapp_rg.name
   os_type             = "Linux"
   sku_name            = var.eshopwebapp_ui_plan_tier
-  appl
 }
 
 resource "azurerm_linux_web_app" "eshop_ui_web_app" {
