@@ -24,6 +24,7 @@ stages:
          inputs:
           provider: 'azurerm'
           command: 'init'
+          workingDirectory: '$(System.DefaultWorkingDirectory)/src'
           backendServiceArm: $(vg-azure-subscription)
           backendAzureRmResourceGroupName: $(vg-terraform-backend-rg)
           backendAzureRmStorageAccountName: $(vg-terraform-backend-rg)
