@@ -25,10 +25,10 @@ stages:
           provider: 'azurerm'
           command: 'init'
           backendServiceArm: $(vg-azure-subscription)
-          backendAzureRmResourceGroupName: 'none'
-          backendAzureRmStorageAccountName: 'none'
-          backendAzureRmContainerName: 'none'
-          backendAzureRmKey: 'none'
+          backendAzureRmResourceGroupName: $(vg-terraform-backend-rg)
+          backendAzureRmStorageAccountName: $(vg-terraform-backend-rg)
+          backendAzureRmContainerName: 'terraform-state-dev1-container'
+          backendAzureRmKey: 'terraform.tfstate'
        - task: TerraformTaskV4@4
          displayName: 'Terraform Validate'
          inputs:
