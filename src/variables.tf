@@ -8,3 +8,9 @@ variable "location" {
   type        = string
   default     = "West Europe"
 }
+
+variable "eshopwebapp_ui_plan_tier" {
+  description = "E-shop web application UI tier"
+  type        = string
+}
+ 
