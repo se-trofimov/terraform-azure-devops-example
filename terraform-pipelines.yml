@@ -35,6 +35,7 @@ stages:
          inputs:
           provider: 'azurerm'
           command: 'validate'
+          workingDirectory: '$(System.DefaultWorkingDirectory)/src'
 
 - stage: publish_artefact
   displayName: 'Publish terraform files'
