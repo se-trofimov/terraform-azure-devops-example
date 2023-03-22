@@ -15,7 +15,7 @@ resource "azurerm_linux_web_app" "eshop_ui_web_app" {
   name                = "${var.environment}-eshop-web-ui-webapp"
   location            = var.location
   resource_group_name = azurerm_resource_group.webapp_rg.name
-  app_service_plan_id = azurerm_service_plan.eshop_web_ui_plan.id
+  service_plan_id     = azurerm_service_plan.eshop_web_ui_plan.id
   
   site_config {
     application_stack   = {
