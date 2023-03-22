@@ -27,7 +27,7 @@ stages:
           workingDirectory: '$(System.DefaultWorkingDirectory)/src'
           backendServiceArm: $(vg-azure-subscription)
           backendAzureRmResourceGroupName: $(vg-terraform-backend-rg)
-          backendAzureRmStorageAccountName: $(vg-terraform-backend-rg)
+          backendAzureRmStorageAccountName: $(vg-storage-account)
           backendAzureRmContainerName: 'terraform-state-dev1-container'
           backendAzureRmKey: 'terraform.tfstate'
        - task: TerraformTaskV4@4
