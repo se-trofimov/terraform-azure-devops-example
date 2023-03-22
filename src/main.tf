@@ -17,8 +17,10 @@ resource "azurerm_linux_web_app" "eshop_ui_web_app" {
   resource_group_name = azurerm_resource_group.webapp_rg.name
   service_plan_id     = azurerm_service_plan.eshop_web_ui_plan.id
   
-  site_config {}
-  application_stack {
+  site_config {
+    application_stack {
         dotnet_version  = "7.0"
       }
+  }
+  
 }
