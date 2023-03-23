@@ -21,5 +21,6 @@ resource "azurerm_linux_web_app" "eshop_ui_web_app" {
     application_stack {
         dotnet_version  = "7.0"
       }
+    always_on = var.eshopwebapp_ui_plan_tier == "D1" ? false : true
   }
 }
