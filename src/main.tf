@@ -19,7 +19,7 @@ resource "azurerm_windows_web_app" "eshop_ui_web_app" {
 
   site_config {
     application_stack {
-      dotnet_version = "7.0"
+      dotnet_version = "v7.0"
     }
     always_on = var.eshopwebapp_ui_plan_tier == "D1" ? false : true
   }
