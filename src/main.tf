@@ -11,16 +11,16 @@ resource "azurerm_service_plan" "eshop_web_ui_plan" {
   sku_name            = var.eshopwebapp_ui_plan_tier
 }
 
-resource "azurerm_linux_web_app" "eshop_ui_web_app" {
+resource "azurerm_windows_web_app" "eshop_ui_web_app" {
   name                = "${var.environment}-eshop-web-ui-webapp"
   location            = var.location
   resource_group_name = azurerm_resource_group.webapp_rg.name
   service_plan_id     = azurerm_service_plan.eshop_web_ui_plan.id
-  
+
   site_config {
     application_stack {
-        dotnet_version  = "7.0"
-      }
+      dotnet_version = "7.0"
+    }
     always_on = var.eshopwebapp_ui_plan_tier == "D1" ? false : true
   }
 }
