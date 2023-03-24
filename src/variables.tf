@@ -19,3 +19,14 @@ variable "eshop_ui_web_app_settings" {
   type        = map(any)
   default     = {}
 }
+
+variable "eshoponweb_sqlserver_login"{
+  description = "E-shop sql server admin login"
+  type        = string
+}
+
+variable "eshoponweb_sqlserver_password"{
+  description = "E-shop sql server admin password"
+  type        = string
+}
+ 
