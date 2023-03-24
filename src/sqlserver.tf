@@ -16,7 +16,6 @@ resource "azurerm_mssql_database" "eshoponweb_db" {
   name                        = "${var.environment}-eshoponweb-main-db"
   server_id                   = azurerm_mssql_server.eshoponweb_sqlserver.id
   collation                   = "SQL_Latin1_General_CP1_CI_AS"
-  license_type                = "LicenseIncluded"
   max_size_gb                 = 25
   min_capacity                = 0.5
   read_replica_count          = 0
