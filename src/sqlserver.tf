@@ -1,5 +1,5 @@
 resource "azurerm_mssql_server" "eshoponweb_sqlserver" {
-  name                         = "eshoponweb-sqlserver"
+  name                         = "${var.environment}-eshoponweb-sqlserver"
   resource_group_name          = azurerm_resource_group.webapp_rg.name
   location                     = var.location
   version                      = "12.0"
