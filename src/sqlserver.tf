@@ -24,5 +24,4 @@ resource "azurerm_mssql_database" "eshoponweb_db" {
   sku_name                    = "GP_S_Gen5_1"
   zone_redundant              = false
   auto_pause_delay_in_minutes = 60
-  storage_account_type        = "LRS"
 }
