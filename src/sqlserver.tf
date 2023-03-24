@@ -17,7 +17,7 @@ resource "azurerm_mssql_database" "eshoponweb_db" {
   server_id      = azurerm_mssql_server.eshoponweb_sqlserver.id
   collation      = "SQL_Latin1_General_CP1_CI_AS"
   license_type   = "LicenseIncluded"
-  max_size_gb    = 2
-  sku_name       = "Basic"
+  max_size_gb    = 25
+  sku_name       = "GP_S_Gen5_2"
   zone_redundant = true
 }
