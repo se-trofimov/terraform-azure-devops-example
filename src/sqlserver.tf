@@ -9,7 +9,7 @@ resource "azurerm_sql_server" "eshoponweb_sqlserver" {
 
 resource "azurerm_mssql_database" "eshoponweb_db" {
   name                        = "${var.environment}-eshoponweb-main-db"
-  server_id                   = azurerm_mssql_server.eshoponweb_sqlserver.id
+  server_id                   = azurerm_sql_server.eshoponweb_sqlserver.id
   collation                   = "SQL_Latin1_General_CP1_CI_AS"
   license_type                = "BasePrice"
   max_size_gb                 = 25
