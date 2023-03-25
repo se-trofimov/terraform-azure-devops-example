@@ -34,7 +34,7 @@ resource "azurerm_private_endpoint" "eshoponweb_private_endpoint" {
     name                           = "${var.environment}-eshoponweb-private-connection"
     is_manual_connection           = "false"
     private_connection_resource_id = azurerm_mssql_server.eshoponweb_sqlserver.id
-    subresource_names              = ["Microsoft.Sql"]
+    subresource_names              = ["sqlServer"]
   }
 }
 
