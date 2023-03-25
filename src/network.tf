@@ -14,7 +14,7 @@ resource "azurerm_subnet" "eshoponweb_subnet" {
 }
 
 resource "azurerm_private_dns_zone" "eshoponweb_private_dns" {
-  name = "${var.environment}-eshoponweb-private-dns"
+  name = "${var.environment}.eshoponweb.private.dns"
   resource_group_name = azurerm_resource_group.webapp_rg.name
 }
 
