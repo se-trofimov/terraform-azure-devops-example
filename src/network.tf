@@ -14,13 +14,29 @@ resource "azurerm_subnet" "eshoponweb_subnet" {
 }
 
 resource "azurerm_private_dns_zone" "eshoponweb_private_dns" {
-  name = "${var.environment}.eshoponweb.private.dns"
+  name                = "${var.environment}.eshoponweb.private.dns"
   resource_group_name = azurerm_resource_group.webapp_rg.name
 }
 
 resource "azurerm_private_dns_zone_virtual_network_link" "eshoponweb_private_dns_link" {
-  name = "${var.environment}-eshoponweb-private-dns-link"
-  resource_group_name = azurerm_resource_group.webapp_rg.name
+  name                  = "${var.environment}-eshoponweb-private-dns-link"
+  resource_group_name   = azurerm_resource_group.webapp_rg.name
   private_dns_zone_name = azurerm_private_dns_zone.eshoponweb_private_dns.name
-  virtual_network_id = azurerm_virtual_network.eshoponweb_vnet.id
+  virtual_network_id    = azurerm_virtual_network.eshoponweb_vnet.id
 }
+
+resource "azurerm_private_endpoint" "eshoponweb_private_endpoint" {
+  name                = "${var.environment}-eshoponweb-private-endpoint"
+  location            = var.location
+  resource_group_name = azurerm_resource_group.webapp_rg.name
+  subnet_id           = azurerm_subnet.eshoponweb_subnet.id
+  private_service_connection {
+    name                           = "${var.environment}-eshoponweb-private-connection"
+    is_manual_connection           = "false"
+    private_connection_resource_id = azurerm_mssql_server.eshoponweb_sqlserver.id
+    subresource_names              = ["sqlServer"]
+  }
+}
+
+
+ 
