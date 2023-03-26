@@ -6,10 +6,10 @@ resource "azurerm_virtual_network" "eshoponweb_vnet" {
 }
 
 resource "azurerm_subnet" "eshoponweb_subnet" {
-  name                                           = "${var.environment}-eshoponweb-subnet"
-  resource_group_name                            = azurerm_resource_group.webapp_rg.name
-  virtual_network_name                           = azurerm_virtual_network.eshoponweb_vnet.name
-  address_prefixes                               = ["10.0.1.0/24"]
+  name                 = "${var.environment}-eshoponweb-subnet"
+  resource_group_name  = azurerm_resource_group.webapp_rg.name
+  virtual_network_name = azurerm_virtual_network.eshoponweb_vnet.name
+  address_prefixes     = ["10.0.1.0/24"]
   delegation {
     name = "example-delegation"
 
