@@ -7,7 +7,7 @@ resource "azurerm_virtual_network" "eshoponweb_vnet" {
 
 resource "azurerm_virtual_network_dns_servers" "eshoponweb_dns" {
   virtual_network_id = azurerm_virtual_network.eshoponweb_vnet.id
-  dns_servers        = ["10.7.7.2"]
+  dns_servers        = ["10.0.0.4"]
 }
 
 resource "azurerm_subnet" "eshoponweb_sql_server_subnet" {
