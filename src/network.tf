@@ -42,7 +42,7 @@ resource "azurerm_private_dns_zone_virtual_network_link" "eshoponweb_private_dns
 
   name                  = "${var.environment}-eshoponweb-private-dns-link"
   resource_group_name   = azurerm_resource_group.webapp_rg.name
-  private_dns_zone_name = azurerm_private_dns_zone.eshoponweb_private_dns_zone.name
+  private_dns_zone_name = "privatelink.database.windows.net"
   virtual_network_id    = azurerm_virtual_network.eshoponweb_vnet.id
 }
 
@@ -69,8 +69,8 @@ resource "azurerm_private_dns_a_record" "eshoponweb_endpoint_dns_a_record" {
     azurerm_private_dns_zone.eshoponweb_private_dns_zone
   ]
 
-  name                = lower(azurerm_mssql_server.eshoponweb_sqlserver.name)
-  zone_name           = azurerm_private_dns_zone.eshoponweb_private_dns_zone.name
+  name                = azurerm_mssql_server.eshoponweb_sqlserver.name
+  zone_name           = "privatelink.database.windows.net"
   resource_group_name = azurerm_resource_group.webapp_rg.name
   ttl                 = 300
   records             = [data.azurerm_private_endpoint_connection.eshoponweb_private_connection.private_service_connection.0.private_ip_address]
