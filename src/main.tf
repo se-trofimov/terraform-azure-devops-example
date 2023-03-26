@@ -25,7 +25,6 @@ resource "azurerm_windows_web_app" "eshop_ui_web_app" {
   }
   app_settings = merge(
     {
-      WEBSITE_DNS_SERVER="${azurerm_virtual_network_dns_servers.eshoponweb_dns.dns_servers.0}"
-      WEBSITE_VNET_ROUTE_ALL = 1
+       
     }, var.eshop_ui_web_app_settings) 
 }
