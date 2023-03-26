@@ -66,7 +66,8 @@ data "azurerm_private_endpoint_connection" "eshoponweb_private_connection" {
 
 resource "azurerm_private_dns_a_record" "eshoponweb_endpoint_dns_a_record" {
   depends_on = [
-    azurerm_private_dns_zone.eshoponweb_private_dns_zone
+    azurerm_private_dns_zone.eshoponweb_private_dns_zone,
+    azurerm_private_dns_zone_virtual_network_link.eshoponweb_private_dns_link
   ]
 
   name                = azurerm_mssql_server.eshoponweb_sqlserver.name
