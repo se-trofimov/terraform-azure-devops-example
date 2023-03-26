@@ -17,6 +17,12 @@ resource "azurerm_subnet" "eshoponweb_web_app_subnet" {
   resource_group_name  = azurerm_resource_group.webapp_rg.name
   virtual_network_name = azurerm_virtual_network.eshoponweb_vnet.name
   address_prefixes     = ["10.0.2.0/24"]
+  delegation {
+    name = "delegation"
+    service_delegation {
+      name = "Microsoft.Web/serverFarms"
+    }
+  }
 }
 
 resource "azurerm_private_dns_zone" "eshoponweb_private_dns_zone" {
