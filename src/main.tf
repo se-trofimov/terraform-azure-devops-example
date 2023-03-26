@@ -23,6 +23,5 @@ resource "azurerm_windows_web_app" "eshop_ui_web_app" {
     }
     always_on = var.eshopwebapp_ui_plan_tier == "D1" ? false : true
   }
-
   app_settings = var.eshop_ui_web_app_settings
 }

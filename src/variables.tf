@@ -29,4 +29,3 @@ variable "eshoponweb_sqlserver_password"{
   description = "E-shop sql server admin password"
   type        = string
 }
- 
