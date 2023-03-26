@@ -23,5 +23,9 @@ resource "azurerm_windows_web_app" "eshop_ui_web_app" {
     }
     always_on = var.eshopwebapp_ui_plan_tier == "D1" ? false : true
   }
-  app_settings = var.eshop_ui_web_app_settings
+  app_settings = merge(
+    {
+      WEBSITE_DNS_SERVER="${azurerm_virtual_network_dns_servers.eshoponweb_dns.dns_servers.0}"
+      WEBSITE_VNET_ROUTE_ALL = 1
+    }, var.eshop_ui_web_app_settings) 
 }

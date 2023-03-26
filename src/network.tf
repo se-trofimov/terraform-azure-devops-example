@@ -5,6 +5,11 @@ resource "azurerm_virtual_network" "eshoponweb_vnet" {
   resource_group_name = azurerm_resource_group.webapp_rg.name
 }
 
+resource "azurerm_virtual_network_dns_servers" "eshoponweb_dns" {
+  virtual_network_id = azurerm_virtual_network.eshoponweb_vnet.id
+  dns_servers        = ["10.7.7.2"]
+}
+
 resource "azurerm_subnet" "eshoponweb_sql_server_subnet" {
   name                 = "${var.environment}-eshoponweb-sql_server_subnet"
   resource_group_name  = azurerm_resource_group.webapp_rg.name
