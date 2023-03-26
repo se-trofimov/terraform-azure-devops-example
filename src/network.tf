@@ -26,3 +26,8 @@ resource "azurerm_mssql_virtual_network_rule" "eshoponveb_sqlserver_rule" {
   server_id = azurerm_mssql_server.eshoponweb_sqlserver.id
   subnet_id = azurerm_subnet.eshoponweb_sqlserver_subnet.id
 }
+
+resource "azurerm_app_service_virtual_network_swift_connection" "app" {
+  app_service_id = azurerm_windows_web_app.eshop_ui_web_app.id
+  subnet_id      = azurerm_subnet.eshoponweb_sqlserver_subnet.id
+}
