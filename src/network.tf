@@ -19,6 +19,10 @@ resource "azurerm_private_dns_zone" "eshoponweb_private_dns_zone" {
 }
 
 resource "azurerm_private_dns_zone_virtual_network_link" "eshoponweb_private_dns_link" {
+  depends_on = [
+    azurerm_private_dns_zone.eshoponweb_private_dns_zone
+  ]
+
   name                  = "${var.environment}-eshoponweb-private-dns-link"
   resource_group_name   = azurerm_resource_group.webapp_rg.name
   private_dns_zone_name = azurerm_private_dns_zone.eshoponweb_private_dns_zone.name
@@ -44,9 +48,13 @@ data "azurerm_private_endpoint_connection" "eshoponweb_private_connection" {
 }
 
 resource "azurerm_private_dns_a_record" "eshoponweb_endpoint_dns_a_record" {
-  name = lower(azurerm_mssql_server.eshoponweb_sqlserver.name)
-  zone_name = azurerm_private_dns_zone.eshoponweb_private_dns_zone.name
+  depends_on = [
+    azurerm_private_dns_zone.eshoponweb_private_dns_zone
+  ]
+
+  name                = lower(azurerm_mssql_server.eshoponweb_sqlserver.name)
+  zone_name           = azurerm_private_dns_zone.eshoponweb_private_dns_zone.name
   resource_group_name = azurerm_resource_group.webapp_rg.name
-  ttl = 300
-  records = [data.azurerm_private_endpoint_connection.eshoponweb_private_connection.private_service_connection.0.private_ip_address]
+  ttl                 = 300
+  records             = [data.azurerm_private_endpoint_connection.eshoponweb_private_connection.private_service_connection.0.private_ip_address]
 }
