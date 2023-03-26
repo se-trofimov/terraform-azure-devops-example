@@ -17,9 +17,6 @@ resource "azurerm_windows_web_app" "eshop_ui_web_app" {
   resource_group_name = azurerm_resource_group.webapp_rg.name
   service_plan_id     = azurerm_service_plan.eshop_web_ui_plan.id
 
-  identity {
-    type = "SystemAssigned"
-  }
   site_config {
     application_stack {
       dotnet_version = "v7.0"
