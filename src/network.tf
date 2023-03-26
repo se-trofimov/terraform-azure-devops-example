@@ -5,11 +5,6 @@ resource "azurerm_virtual_network" "eshoponweb_vnet" {
   resource_group_name = azurerm_resource_group.webapp_rg.name
 }
 
-resource "azurerm_virtual_network_dns_servers" "eshoponweb_dns" {
-  virtual_network_id = azurerm_virtual_network.eshoponweb_vnet.id
-  dns_servers        = ["10.0.0.4"]
-}
-
 resource "azurerm_subnet" "eshoponweb_sql_server_subnet" {
   name                 = "${var.environment}-eshoponweb-sql_server_subnet"
   resource_group_name  = azurerm_resource_group.webapp_rg.name
@@ -30,19 +25,21 @@ resource "azurerm_subnet" "eshoponweb_web_app_subnet" {
   }
 }
 
+resource "azurerm_virtual_network_dns_servers" "eshoponweb_dns" {
+  virtual_network_id = azurerm_virtual_network.eshoponweb_vnet.id
+  dns_servers        = ["10.0.0.4"]
+}
+
 resource "azurerm_private_dns_zone" "eshoponweb_private_dns_zone" {
-  name                = "${var.environment}.eshoponweb.private.dns"
+  name                = "privatelink.database.windows.net"
   resource_group_name = azurerm_resource_group.webapp_rg.name
 }
 
 resource "azurerm_private_dns_zone_virtual_network_link" "eshoponweb_private_dns_link" {
-  depends_on = [
-    azurerm_private_dns_zone.eshoponweb_private_dns_zone
-  ]
 
   name                  = "${var.environment}-eshoponweb-private-dns-link"
   resource_group_name   = azurerm_resource_group.webapp_rg.name
-  private_dns_zone_name = "privatelink.database.windows.net"
+  private_dns_zone_name = azurerm_private_dns_zone.eshoponweb_private_dns_zone.name
   virtual_network_id    = azurerm_virtual_network.eshoponweb_vnet.id
 }
 
@@ -59,22 +56,17 @@ resource "azurerm_private_endpoint" "eshoponweb_private_endpoint" {
   }
 }
 
-data "azurerm_private_endpoint_connection" "eshoponweb_private_connection" {
-  name                = azurerm_private_endpoint.eshoponweb_private_endpoint.name
-  resource_group_name = azurerm_resource_group.webapp_rg.name
-}
 
 resource "azurerm_private_dns_a_record" "eshoponweb_endpoint_dns_a_record" {
   depends_on = [
-    azurerm_private_dns_zone.eshoponweb_private_dns_zone,
-    azurerm_private_dns_zone_virtual_network_link.eshoponweb_private_dns_link
+    azurerm_private_dns_zone.eshoponweb_private_dns_zone
   ]
 
   name                = azurerm_mssql_server.eshoponweb_sqlserver.name
-  zone_name           = "privatelink.database.windows.net"
+  zone_name           = azurerm_private_dns_zone.eshoponweb_private_dns_zone.name
   resource_group_name = azurerm_resource_group.webapp_rg.name
   ttl                 = 300
-  records             = [data.azurerm_private_endpoint_connection.eshoponweb_private_connection.private_service_connection.0.private_ip_address]
+  records             = azurerm_private_endpoint.eshoponweb_private_endpoint.custom_dns_configs.0.ip_addresses
 }
 
 resource "azurerm_app_service_virtual_network_swift_connection" "eshoponweb_webapp_vnet_integration" {
