@@ -23,9 +23,20 @@ resource "azurerm_windows_web_app" "eshop_ui_web_app" {
     }
     always_on = var.eshopwebapp_ui_plan_tier == "D1" ? false : true
   }
+  connection_string {
+    name  = "CatalogConnection"
+    type  = "SQLAzure"
+    value = "Server=tcp:${azurerm_mssql_server.eshoponweb_sqlserver.name},1433;Initial Catalog=${azurerm_mssql_database.eshoponweb_db.name};Persist Security Info=False;User ID=${var.eshoponweb_sqlserver_login};Password=${var.eshoponweb_sqlserver_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+  }
+
+  connection_string {
+    name  = "IdentityConnection"
+    type  = "SQLAzure"
+    value = "Server=tcp:${azurerm_mssql_server.eshoponweb_sqlserver.name},1433;Initial Catalog=${azurerm_mssql_database.eshoponweb_identity_db.name};Persist Security Info=False;User ID=${var.eshoponweb_sqlserver_login};Password=${var.eshoponweb_sqlserver_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+  }
+
   app_settings = merge(
     {
-      ConnectionStrings__CatalogConnection  = "Server=tcp:${azurerm_mssql_server.eshoponweb_sqlserver.name},1433;Initial Catalog=${azurerm_mssql_database.eshoponweb_db.name};Persist Security Info=False;User ID=${var.eshoponweb_sqlserver_login};Password=${var.eshoponweb_sqlserver_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
-      ConnectionStrings__IdentityConnection = "Server=tcp:${azurerm_mssql_server.eshoponweb_sqlserver.name},1433;Initial Catalog=${azurerm_mssql_database.eshoponweb_identity_db.name};Persist Security Info=False;User ID=${var.eshoponweb_sqlserver_login};Password=${var.eshoponweb_sqlserver_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
-  }, var.eshop_ui_web_app_settings)
+
+    }, var.eshop_ui_web_app_settings)
 }
