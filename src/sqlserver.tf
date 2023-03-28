@@ -30,5 +30,5 @@ resource "azurerm_mssql_database" "eshoponweb_identity_db" {
   max_size_gb          = var.eshoponweb_sqlserver_max_size_gb
   sku_name             = var.eshoponweb_sqlserver_sku
   zone_redundant       = false
-  storage_account_type = "LRS"
+  storage_account_type = "Local"
 }
