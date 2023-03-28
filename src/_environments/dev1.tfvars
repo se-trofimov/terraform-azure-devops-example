@@ -4,5 +4,5 @@ eshop_ui_web_app_settings = {
   ASPNETCORE_ENVIRONMENT = "development"
 }
 
-eshoponweb_sqlserver_sku         = "Free"
+eshoponweb_sqlserver_sku         = "Basic"
 eshoponweb_sqlserver_max_size_gb = 2
