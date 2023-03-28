@@ -13,24 +13,26 @@ resource "azurerm_mssql_server" "eshoponweb_sqlserver" {
 }
 
 resource "azurerm_mssql_database" "eshoponweb_db" {
-  name                 = "${var.environment}-eshoponweb-main-db"
-  server_id            = azurerm_mssql_server.eshoponweb_sqlserver.id
-  collation            = "SQL_Latin1_General_CP1_CI_AS"
-  max_size_gb          = var.eshoponweb_sqlserver_max_size_gb
-  sku_name             = var.eshoponweb_sqlserver_sku
-  zone_redundant       = false
-  geo_backup_enabled   = false
-  storage_account_type = "Local"
-  min_capacity         = var.eshoponweb_sqlserver_sku == "Basic" ? 0 : 0.5
+  name                        = "${var.environment}-eshoponweb-main-db"
+  server_id                   = azurerm_mssql_server.eshoponweb_sqlserver.id
+  collation                   = "SQL_Latin1_General_CP1_CI_AS"
+  max_size_gb                 = var.eshoponweb_sqlserver_max_size_gb
+  sku_name                    = var.eshoponweb_sqlserver_sku
+  zone_redundant              = false
+  geo_backup_enabled          = false
+  storage_account_type        = "Local"
+  min_capacity                = var.eshoponweb_sqlserver_sku == "Basic" ? 0 : 0.5
+  auto_pause_delay_in_minutes = var.eshoponweb_sqlserver_sku == "Basic" ? 0 : 60
 }
 
 resource "azurerm_mssql_database" "eshoponweb_identity_db" {
-  name                 = "${var.environment}-eshoponweb-identity-db"
-  server_id            = azurerm_mssql_server.eshoponweb_sqlserver.id
-  collation            = "SQL_Latin1_General_CP1_CI_AS"
-  max_size_gb          = var.eshoponweb_sqlserver_max_size_gb
-  sku_name             = var.eshoponweb_sqlserver_sku
-  zone_redundant       = false
-  storage_account_type = "Local"
-  min_capacity         = var.eshoponweb_sqlserver_sku == "Basic" ? 0 : 0.5
+  name                        = "${var.environment}-eshoponweb-identity-db"
+  server_id                   = azurerm_mssql_server.eshoponweb_sqlserver.id
+  collation                   = "SQL_Latin1_General_CP1_CI_AS"
+  max_size_gb                 = var.eshoponweb_sqlserver_max_size_gb
+  sku_name                    = var.eshoponweb_sqlserver_sku
+  zone_redundant              = false
+  storage_account_type        = "Local"
+  min_capacity                = var.eshoponweb_sqlserver_sku == "Basic" ? 0 : 0.5
+  auto_pause_delay_in_minutes = var.eshoponweb_sqlserver_sku == "Basic" ? 0 : 60
 }
