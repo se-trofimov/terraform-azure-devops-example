@@ -21,6 +21,7 @@ resource "azurerm_mssql_database" "eshoponweb_db" {
   zone_redundant       = false
   geo_backup_enabled   = false
   storage_account_type = "Local"
+  min_capacity         = var.eshoponweb_sqlserver_sku == "Basic" ? 0 : 0.5
 }
 
 resource "azurerm_mssql_database" "eshoponweb_identity_db" {
@@ -31,4 +32,5 @@ resource "azurerm_mssql_database" "eshoponweb_identity_db" {
   sku_name             = var.eshoponweb_sqlserver_sku
   zone_redundant       = false
   storage_account_type = "Local"
+  min_capacity         = var.eshoponweb_sqlserver_sku == "Basic" ? 0 : 0.5
 }
