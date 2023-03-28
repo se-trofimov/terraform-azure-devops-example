@@ -12,28 +12,20 @@ resource "azurerm_mssql_server" "eshoponweb_sqlserver" {
   }
 }
 
-resource "azurerm_mssql_database" "eshoponweb_db" {
-  name                        = "${var.environment}-eshoponweb-main-db"
-  server_id                   = azurerm_mssql_server.eshoponweb_sqlserver.id
-  collation                   = "SQL_Latin1_General_CP1_CI_AS"
-  max_size_gb                 = 25
-  min_capacity                = 0.5
-  read_replica_count          = 0
-  read_scale                  = false
-  sku_name                    = "GP_S_Gen5_1"
-  zone_redundant              = false
-  auto_pause_delay_in_minutes = 60
-}
+# resource "azurerm_mssql_database" "eshoponweb_db" {
+#   name                        = "${var.environment}-eshoponweb-main-db"
+#   server_id                   = azurerm_mssql_server.eshoponweb_sqlserver.id
+#   collation                   = "SQL_Latin1_General_CP1_CI_AS"
+#   max_size_gb                 = var.eshoponweb_sqlserver_max_size_gb
+#   sku_name                    = var.eshoponweb_sqlserver_sku
+#   zone_redundant              = false
+# }
 
-resource "azurerm_mssql_database" "eshoponweb_identity_db" {
-  name                        = "${var.environment}-eshoponweb-identity-db"
-  server_id                   = azurerm_mssql_server.eshoponweb_sqlserver.id
-  collation                   = "SQL_Latin1_General_CP1_CI_AS"
-  max_size_gb                 = 25
-  min_capacity                = 0.5
-  read_replica_count          = 0
-  read_scale                  = false
-  sku_name                    = "GP_S_Gen5_1"
-  zone_redundant              = false
-  auto_pause_delay_in_minutes = 60
-}
+# resource "azurerm_mssql_database" "eshoponweb_identity_db" {
+#   name                        = "${var.environment}-eshoponweb-identity-db"
+#   server_id                   = azurerm_mssql_server.eshoponweb_sqlserver.id
+#   collation                   = "SQL_Latin1_General_CP1_CI_AS"
+#   max_size_gb                 = var.eshoponweb_sqlserver_max_size_gb
+#   sku_name                    = var.eshoponweb_sqlserver_sku
+#   zone_redundant              = false
+# }
