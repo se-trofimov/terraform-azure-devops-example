@@ -40,7 +40,20 @@ resource "azurerm_windows_web_app_slot" "eshop_ui_web_app_slots" {
   count          = var.eshopwebapp_ui_plan_tier == "S1" ? 1 : 0
   name           = "${azurerm_windows_web_app.eshop_ui_web_app.name}-slot-${count.index}"
   app_service_id = azurerm_windows_web_app.eshop_ui_web_app.id
+  app_settings = merge(
+    {
 
-  site_config {}
+  }, var.eshop_ui_web_app_settings)
+
+    connection_string {
+    name  = "CatalogConnection"
+    type  = "SQLAzure"
+    value = "Server=tcp:${azurerm_mssql_server.eshoponweb_sqlserver.fully_qualified_domain_name},1433;Initial Catalog=${azurerm_mssql_database.eshoponweb_db.name};Persist Security Info=False;User ID=${var.eshoponweb_sqlserver_login};Password=${var.eshoponweb_sqlserver_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+  }
+
+  connection_string {
+    name  = "IdentityConnection"
+    type  = "SQLAzure"
+    value = "Server=tcp:${azurerm_mssql_server.eshoponweb_sqlserver.fully_qualified_domain_name},1433;Initial Catalog=${azurerm_mssql_database.eshoponweb_identity_db.name};Persist Security Info=False;User ID=${var.eshoponweb_sqlserver_login};Password=${var.eshoponweb_sqlserver_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+  }
 }
-
