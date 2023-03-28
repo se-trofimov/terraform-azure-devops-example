@@ -44,8 +44,8 @@ resource "azurerm_windows_web_app_slot" "eshop_ui_web_app_slots" {
     {
 
   }, var.eshop_ui_web_app_settings)
-
-    connection_string {
+  site_config {}
+  connection_string {
     name  = "CatalogConnection"
     type  = "SQLAzure"
     value = "Server=tcp:${azurerm_mssql_server.eshoponweb_sqlserver.fully_qualified_domain_name},1433;Initial Catalog=${azurerm_mssql_database.eshoponweb_db.name};Persist Security Info=False;User ID=${var.eshoponweb_sqlserver_login};Password=${var.eshoponweb_sqlserver_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
