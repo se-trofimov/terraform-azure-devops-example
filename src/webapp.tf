@@ -37,7 +37,7 @@ resource "azurerm_windows_web_app" "eshop_ui_web_app" {
 }
 
 resource "azurerm_windows_web_app_slot" "eshop_ui_web_app_slots" {
-  count          = azurerm_service_plan.eshop_web_ui_plan.id == "S1" ? 2 : 0
+  count          = var.azurerm_service_plan.eshop_web_ui_plan.id == "S1" ? 2 : 0
   name           = "${azurerm_windows_web_app.eshop_ui_web_app.name}-slot-${count.index}"
   app_service_id = azurerm_windows_web_app.eshop_ui_web_app.id
 
