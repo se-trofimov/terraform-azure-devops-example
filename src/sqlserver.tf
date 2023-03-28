@@ -19,6 +19,10 @@ resource "azurerm_mssql_database" "eshoponweb_db" {
   # max_size_gb                 = var.eshoponweb_sqlserver_max_size_gb
   sku_name                    = var.eshoponweb_sqlserver_sku
   zone_redundant              = false
+  short_term_retention_policy {
+    retention_days = 35
+    backup_interval_in_hours = 12
+  }
 }
 
 resource "azurerm_mssql_database" "eshoponweb_identity_db" {
@@ -28,4 +32,8 @@ resource "azurerm_mssql_database" "eshoponweb_identity_db" {
   # max_size_gb                 = var.eshoponweb_sqlserver_max_size_gb
   sku_name                    = var.eshoponweb_sqlserver_sku
   zone_redundant              = false
+  short_term_retention_policy {
+    retention_days = 35
+    backup_interval_in_hours = 12
+  }
 }
