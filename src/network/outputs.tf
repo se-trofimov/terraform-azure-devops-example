@@ -1,3 +1,3 @@
-output network_resource_group{
-    value = azurerm_resource_group.network_rg
+output eshoponweb_sqlserver_subnet{
+    value = azurerm_subnet.eshoponweb_sqlserver_subnet.id
 }

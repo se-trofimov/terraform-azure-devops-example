@@ -1,6 +1,20 @@
+data "terraform_remote_state" "network" {
+  backend = "azurerm"
+  config = {
+    storage_account_name = "eshopterraformbackendsa"
+    container_name       = "terraform-state-${var.environment}-container"
+    key                  = "network/terraform.tfstate"
+  }
+}
+
+resource "azurerm_resource_group" "sql_rg" {
+  name     = "${var.environment}-databases-rg"
+  location = var.location
+}
+
 resource "azurerm_mssql_server" "eshoponweb_sqlserver" {
   name                         = "${var.environment}-eshoponweb-sqlserver"
-  resource_group_name          = azurerm_resource_group.webapp_rg.name
+  resource_group_name          = azurerm_resource_group.sql_rg.name
   location                     = var.location
   version                      = "12.0"
   administrator_login          = var.eshoponweb_sqlserver_login
@@ -40,5 +54,5 @@ resource "azurerm_mssql_database" "eshoponweb_identity_db" {
 resource "azurerm_mssql_virtual_network_rule" "eshoponveb_sqlserver_rule" {
   name      = "eshoponweb-sqlserver-network-rule"
   server_id = azurerm_mssql_server.eshoponweb_sqlserver.id
-  subnet_id = azurerm_subnet.eshoponweb_sqlserver_subnet.id
+  subnet_id = data.terraform_remote_state.network.eshoponweb_sqlserver_subnet
 }
