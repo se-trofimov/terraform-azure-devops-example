@@ -36,3 +36,9 @@ resource "azurerm_mssql_database" "eshoponweb_identity_db" {
   min_capacity                = var.eshoponweb_sqlserver_sku == "Basic" ? 0 : 0.5
   auto_pause_delay_in_minutes = var.eshoponweb_sqlserver_sku == "Basic" ? 0 : 60
 }
+
+resource "azurerm_mssql_virtual_network_rule" "eshoponveb_sqlserver_rule" {
+  name      = "eshoponweb-sqlserver-network-rule"
+  server_id = azurerm_mssql_server.eshoponweb_sqlserver.id
+  subnet_id = azurerm_subnet.eshoponweb_sqlserver_subnet.id
+}
