@@ -1,7 +1,3 @@
-output "webapp_rg" {
-   value = azurerm_resource_group.network_rg.name
-}
-
-output "eshoponweb_sqlserver_subnet" {
-   value = azurerm_subnet.eshoponweb_sqlserver_subnet.name
+output "webapp_ui_webapp_name" {
+   value = azurerm_windows_web_app.eshop_ui_web_app.name
 }
