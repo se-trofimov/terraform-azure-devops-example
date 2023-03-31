@@ -36,13 +36,13 @@ resource "azurerm_windows_web_app" "eshop_ui_web_app" {
   connection_string {
     name  = "CatalogConnection"
     type  = "SQLAzure"
-    value = "Server=tcp:${azurerm_mssql_server.eshoponweb_sqlserver.fully_qualified_domain_name},1433;Initial Catalog=${azurerm_mssql_database.eshoponweb_db.name};Persist Security Info=False;User ID=${var.eshoponweb_sqlserver_login};Password=${var.eshoponweb_sqlserver_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+    value = "Server=tcp:${data.terraform_remote_state.database.eshoponweb_sqlserver_fully_qualified_domain_name},1433;Initial Catalog=${data.terraform_remote_state.database.eshoponweb_db_name};Persist Security Info=False;User ID=${var.eshoponweb_sqlserver_login};Password=${var.eshoponweb_sqlserver_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
   }
 
   connection_string {
     name  = "IdentityConnection"
     type  = "SQLAzure"
-    value = "Server=tcp:${azurerm_mssql_server.eshoponweb_sqlserver.fully_qualified_domain_name},1433;Initial Catalog=${azurerm_mssql_database.eshoponweb_identity_db.name};Persist Security Info=False;User ID=${var.eshoponweb_sqlserver_login};Password=${var.eshoponweb_sqlserver_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+    value = "Server=tcp:${data.terraform_remote_state.database.eshoponweb_sqlserver_fully_qualified_domain_name},1433;Initial Catalog=${data.terraform_remote_state.database.eshoponweb_identity_db_name};Persist Security Info=False;User ID=${var.eshoponweb_sqlserver_login};Password=${var.eshoponweb_sqlserver_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
   }
 
   app_settings = merge(
