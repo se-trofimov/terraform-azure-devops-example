@@ -8,6 +8,16 @@
   }
 }
 
+ data "terraform_remote_state" "network" {
+  backend = "azurerm"
+  config = {
+    resource_group_name  = "terraform-backend-rg"
+    storage_account_name = "eshopterraformbackendsa"
+    container_name       = "terraform-state-${var.environment}-container"
+    key                  = "network/terraform.tfstate"
+  }
+}
+
 resource "azurerm_resource_group" "webapp_rg" {
   name     = "${var.environment}-webapp-rg"
   location = var.location
@@ -71,4 +81,9 @@ resource "azurerm_windows_web_app_slot" "eshop_ui_web_app_slots" {
     type  = "SQLAzure"
     value = "Server=tcp:${data.terraform_remote_state.database.outputs.eshoponweb_sqlserver_fully_qualified_domain_name},1433;Initial Catalog=${data.terraform_remote_state.database.outputs.eshoponweb_identity_db_name};Persist Security Info=False;User ID=${var.eshoponweb_sqlserver_login};Password=${var.eshoponweb_sqlserver_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
   }
+}
+
+resource "azurerm_app_service_virtual_network_swift_connection" "eshoponweb_ui_swift_connection" {
+  app_service_id = azurerm_app_service.eshop_ui_web_app.id
+  subnet_id      = data.terraform_remote_state.network.outputs.eshoponweb_sqlserver_subnet_id
 }
