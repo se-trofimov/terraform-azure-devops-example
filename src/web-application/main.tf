@@ -84,6 +84,6 @@ resource "azurerm_windows_web_app_slot" "eshop_ui_web_app_slots" {
 }
 
 resource "azurerm_app_service_virtual_network_swift_connection" "eshoponweb_ui_swift_connection" {
-  app_service_id = azurerm_app_service.eshop_ui_web_app.id
+  app_service_id = azurerm_windows_web_app.eshop_ui_web_app.id
   subnet_id      = data.terraform_remote_state.network.outputs.eshoponweb_sqlserver_subnet_id
 }
