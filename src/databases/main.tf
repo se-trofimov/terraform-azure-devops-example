@@ -52,8 +52,15 @@ resource "azurerm_mssql_database" "eshoponweb_identity_db" {
   auto_pause_delay_in_minutes = var.eshoponweb_sqlserver_sku == "Basic" ? 0 : 60
 }
 
-resource "azurerm_mssql_virtual_network_rule" "eshoponveb_sqlserver_rule" {
+resource "azurerm_mssql_virtual_network_rule" "eshoponweb_sqlserver_rule" {
   name      = "eshoponweb-sqlserver-network-rule"
   server_id = azurerm_mssql_server.eshoponweb_sqlserver.id
   subnet_id = data.terraform_remote_state.network.outputs.eshoponweb_sqlserver_subnet_id
+}
+
+resource "azurerm_mssql_virtual_network_rule" "eshoponweb_sqlserver_rules" {
+  count     = 2
+  name      = "eshoponweb-sqlserver-network-rule-${count.index + 1}"
+  server_id = azurerm_mssql_server.eshoponweb_sqlserver.id
+  subnet_id = data.terraform_remote_state.network.outputs.eshoponweb_sqlserver_subnet_ids[count.index]
 }

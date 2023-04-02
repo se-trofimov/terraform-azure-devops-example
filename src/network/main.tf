@@ -10,11 +10,12 @@ resource "azurerm_virtual_network" "eshoponweb_vnet" {
   resource_group_name = azurerm_resource_group.network_rg.name
 }
 
-resource "azurerm_subnet" "eshoponweb_sqlserver_subnet" {
-  name                 = "${var.environment}-eshoponweb-sqlserver-subnet"
+resource "azurerm_subnet" "eshoponweb_sqlserver_subnets" {
+  count                = 2
+  name                 = "${var.environment}-eshoponweb-sqlserver-subnet-${count.index + 1}"
   resource_group_name  = azurerm_resource_group.network_rg.name
   virtual_network_name = azurerm_virtual_network.eshoponweb_vnet.name
-  address_prefixes     = ["10.0.1.0/24"]
+  address_prefixes     = ["10.0.${count.index + 1}.0/24"]
   service_endpoints    = ["Microsoft.Sql"]
 
   delegation {
