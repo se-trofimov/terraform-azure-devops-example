@@ -32,6 +32,9 @@ resource "azurerm_service_plan" "eshop_web_ui_plan" {
 }
 
 resource "azurerm_windows_web_app" "eshop_ui_web_app" {
+  
+  lifecycle { ignore_changes = [virtual_network_subnet_id] }
+
   name                = "${var.environment}-eshop-web-ui-webapp"
   location            = var.location
   resource_group_name = azurerm_resource_group.webapp_rg.name
@@ -62,6 +65,9 @@ resource "azurerm_windows_web_app" "eshop_ui_web_app" {
 }
 
 resource "azurerm_windows_web_app_slot" "eshop_ui_web_app_slots" {
+
+  lifecycle { ignore_changes = [virtual_network_subnet_id] }
+
   count          = var.eshopwebapp_ui_plan_tier == "S1" ? 1 : 0
   name           = "${azurerm_windows_web_app.eshop_ui_web_app.name}-slot-${count.index}"
   app_service_id = azurerm_windows_web_app.eshop_ui_web_app.id
