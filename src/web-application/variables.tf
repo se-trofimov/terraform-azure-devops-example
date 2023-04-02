@@ -20,13 +20,13 @@ variable "eshop_ui_web_app_settings" {
   default     = {}
 }
 
-variable "eshopwebapp_identity_plan_tier" {
-  description = "E-shop web application UI tier"
+variable "eshopwebapp_admin_plan_tier" {
+  description = "E-shop admin web application tier"
   type        = string
 }
 
-variable "eshop_identity_web_app_settings" {
-  description = "E-shop web application UI appconfig"
+variable "eshop_admin_web_app_settings" {
+  description = "E-shop admin web application appconfig"
   type        = map(any)
   default     = {}
 }
