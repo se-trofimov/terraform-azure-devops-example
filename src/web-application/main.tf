@@ -53,9 +53,9 @@ resource "azurerm_windows_web_app" "eshop_ui_web_app" {
   }
 
   connection_string {
-    name  = "IdentityConnection"
+    name  = "adminConnection"
     type  = "SQLAzure"
-    value = "Server=tcp:${data.terraform_remote_state.database.outputs.eshoponweb_sqlserver_fully_qualified_domain_name},1433;Initial Catalog=${data.terraform_remote_state.database.outputs.eshoponweb_identity_db_name};Persist Security Info=False;User ID=${var.eshoponweb_sqlserver_login};Password=${var.eshoponweb_sqlserver_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+    value = "Server=tcp:${data.terraform_remote_state.database.outputs.eshoponweb_sqlserver_fully_qualified_domain_name},1433;Initial Catalog=${data.terraform_remote_state.database.outputs.eshoponweb_admin_db_name};Persist Security Info=False;User ID=${var.eshoponweb_sqlserver_login};Password=${var.eshoponweb_sqlserver_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
   }
 
   app_settings = merge(
@@ -83,9 +83,9 @@ resource "azurerm_windows_web_app_slot" "eshop_ui_web_app_slots" {
   }
 
   connection_string {
-    name  = "IdentityConnection"
+    name  = "adminConnection"
     type  = "SQLAzure"
-    value = "Server=tcp:${data.terraform_remote_state.database.outputs.eshoponweb_sqlserver_fully_qualified_domain_name},1433;Initial Catalog=${data.terraform_remote_state.database.outputs.eshoponweb_identity_db_name};Persist Security Info=False;User ID=${var.eshoponweb_sqlserver_login};Password=${var.eshoponweb_sqlserver_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+    value = "Server=tcp:${data.terraform_remote_state.database.outputs.eshoponweb_sqlserver_fully_qualified_domain_name},1433;Initial Catalog=${data.terraform_remote_state.database.outputs.eshoponweb_admin_db_name};Persist Security Info=False;User ID=${var.eshoponweb_sqlserver_login};Password=${var.eshoponweb_sqlserver_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
   }
 }
 
@@ -94,28 +94,28 @@ resource "azurerm_app_service_virtual_network_swift_connection" "eshoponweb_ui_s
   subnet_id      = data.terraform_remote_state.network.outputs.eshoponweb_sqlserver_subnet_id
 }
 
-resource "azurerm_service_plan" "eshop_identity_web_plan" {
-  name                = "${var.environment}-eshop-identity-web-plan"
+resource "azurerm_service_plan" "eshop_admin_web_plan" {
+  name                = "${var.environment}-eshop-admin-web-plan"
   location            = var.location
   resource_group_name = azurerm_resource_group.webapp_rg.name
   os_type             = "Windows"
-  sku_name            = var.eshopwebapp_identity_plan_tier
+  sku_name            = var.eshopwebapp_admin_plan_tier
 }
 
-resource "azurerm_windows_web_app" "eshop_identity_web_app" {
+resource "azurerm_windows_web_app" "eshop_admin_web_app" {
   
   lifecycle { ignore_changes = [virtual_network_subnet_id] }
 
-  name                = "${var.environment}-eshop-web-ui-webapp"
+  name                = "${var.environment}-eshop-web-admin-webapp"
   location            = var.location
   resource_group_name = azurerm_resource_group.webapp_rg.name
-  service_plan_id     = azurerm_service_plan.eshop_identity_web_plan.id
+  service_plan_id     = azurerm_service_plan.eshop_admin_web_plan.id
 
   site_config {
     application_stack {
       dotnet_version = "v7.0"
     }
-    always_on = var.eshopwebapp_identity_plan_tier == "D1" ? false : true
+    always_on = var.eshopwebapp_admin_plan_tier == "D1" ? false : true
   }
 
   connection_string {
@@ -125,13 +125,18 @@ resource "azurerm_windows_web_app" "eshop_identity_web_app" {
   }
 
   connection_string {
-    name  = "IdentityConnection"
+    name  = "adminConnection"
     type  = "SQLAzure"
-    value = "Server=tcp:${data.terraform_remote_state.database.outputs.eshoponweb_sqlserver_fully_qualified_domain_name},1433;Initial Catalog=${data.terraform_remote_state.database.outputs.eshoponweb_identity_db_name};Persist Security Info=False;User ID=${var.eshoponweb_sqlserver_login};Password=${var.eshoponweb_sqlserver_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
+    value = "Server=tcp:${data.terraform_remote_state.database.outputs.eshoponweb_sqlserver_fully_qualified_domain_name},1433;Initial Catalog=${data.terraform_remote_state.database.outputs.eshoponweb_admin_db_name};Persist Security Info=False;User ID=${var.eshoponweb_sqlserver_login};Password=${var.eshoponweb_sqlserver_password};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
   }
 
   app_settings = merge(
     {
 
-  }, var.eshop_identity_web_app_settings)
+  }, var.eshop_admin_web_app_settings)
+}
+
+resource "azurerm_app_service_virtual_network_swift_connection" "eshoponweb_admin_swift_connection" {
+  app_service_id = azurerm_windows_web_app.eshop_admin_web_app.id
+  subnet_id      = data.terraform_remote_state.network.outputs.eshoponweb_sqlserver_subnet_id
 }
