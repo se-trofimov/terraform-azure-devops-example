@@ -1,4 +1,4 @@
- data "terraform_remote_state" "database" {
+data "terraform_remote_state" "database" {
   backend = "azurerm"
   config = {
     resource_group_name  = "terraform-backend-rg"
@@ -8,7 +8,7 @@
   }
 }
 
- data "terraform_remote_state" "network" {
+data "terraform_remote_state" "network" {
   backend = "azurerm"
   config = {
     resource_group_name  = "terraform-backend-rg"
@@ -32,7 +32,7 @@ resource "azurerm_service_plan" "eshop_web_ui_plan" {
 }
 
 resource "azurerm_windows_web_app" "eshop_ui_web_app" {
-  
+
   lifecycle { ignore_changes = [virtual_network_subnet_id] }
 
   name                = "${var.environment}-eshop-web-ui-webapp"
@@ -60,7 +60,7 @@ resource "azurerm_windows_web_app" "eshop_ui_web_app" {
 
   app_settings = merge(
     {
-       "baseUrls__apiBase": "${azurerm_windows_web_app.eshop_admin_web_app.name}.azurewebsites.net"
+      baseUrls__apiBase = "${azurerm_windows_web_app.eshop_admin_web_app.name}.azurewebsites.net"
     }, var.eshop_ui_web_app_settings)
 }
 
@@ -73,7 +73,7 @@ resource "azurerm_windows_web_app_slot" "eshop_ui_web_app_slots" {
   app_service_id = azurerm_windows_web_app.eshop_ui_web_app.id
   app_settings = merge(
     {
-       "baseUrls__apiBase": "${azurerm_windows_web_app.eshop_admin_web_app.name}.azurewebsites.net"
+      baseUrls__apiBase = "${azurerm_windows_web_app.eshop_admin_web_app.name}.azurewebsites.net"
     }, var.eshop_ui_web_app_settings)
   site_config {}
   connection_string {
@@ -103,7 +103,7 @@ resource "azurerm_service_plan" "eshop_admin_web_plan" {
 }
 
 resource "azurerm_windows_web_app" "eshop_admin_web_app" {
-  
+
   lifecycle { ignore_changes = [virtual_network_subnet_id] }
 
   name                = "${var.environment}-eshop-web-admin-webapp"
