@@ -60,8 +60,8 @@ resource "azurerm_windows_web_app" "eshop_ui_web_app" {
 
   app_settings = merge(
     {
-
-  }, var.eshop_ui_web_app_settings)
+       "baseUrls__apiBase": "${azurerm_windows_web_app.eshop_admin_web_app.name}.azurewebsites.net"
+    }, var.eshop_ui_web_app_settings)
 }
 
 resource "azurerm_windows_web_app_slot" "eshop_ui_web_app_slots" {
@@ -73,7 +73,7 @@ resource "azurerm_windows_web_app_slot" "eshop_ui_web_app_slots" {
   app_service_id = azurerm_windows_web_app.eshop_ui_web_app.id
   app_settings = merge(
     {
-
+       "baseUrls__apiBase": "${azurerm_windows_web_app.eshop_admin_web_app.name}.azurewebsites.net"
     }, var.eshop_ui_web_app_settings)
   site_config {}
   connection_string {
