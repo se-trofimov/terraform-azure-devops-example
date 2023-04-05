@@ -68,7 +68,7 @@ resource "azurerm_windows_web_app_slot" "eshop_ui_web_app_slots" {
 
   lifecycle { ignore_changes = [virtual_network_subnet_id] }
 
-  count          = var.eshopwebapp_ui_plan_tier == "S1" ? 1 : 0
+  count          = var.eshopwebapp_ui_plan_tier == "S1" ? 2 : 0
   name           = "${azurerm_windows_web_app.eshop_ui_web_app.name}-slot-${count.index}"
   app_service_id = azurerm_windows_web_app.eshop_ui_web_app.id
   app_settings = merge(
