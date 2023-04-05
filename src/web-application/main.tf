@@ -61,7 +61,7 @@ resource "azurerm_windows_web_app" "eshop_ui_web_app" {
   app_settings = merge(
     {
       baseUrls__apiBase = "${azurerm_windows_web_app.eshop_admin_web_app.name}.azurewebsites.net"
-    }, var.eshop_ui_web_app_settings)
+  }, var.eshop_ui_web_app_settings)
 }
 
 resource "azurerm_windows_web_app_slot" "eshop_ui_web_app_slots" {
@@ -74,7 +74,7 @@ resource "azurerm_windows_web_app_slot" "eshop_ui_web_app_slots" {
   app_settings = merge(
     {
       baseUrls__apiBase = "${azurerm_windows_web_app.eshop_admin_web_app.name}.azurewebsites.net"
-    }, var.eshop_ui_web_app_settings)
+  }, var.eshop_ui_web_app_settings)
   site_config {}
   connection_string {
     name  = "CatalogConnection"
@@ -90,6 +90,13 @@ resource "azurerm_windows_web_app_slot" "eshop_ui_web_app_slots" {
 }
 
 resource "azurerm_app_service_virtual_network_swift_connection" "eshoponweb_ui_swift_connection" {
+  app_service_id = azurerm_windows_web_app.eshop_ui_web_app.id
+  subnet_id      = data.terraform_remote_state.network.outputs.eshoponweb_sqlserver_subnet_ids[0]
+}
+
+resource "azurerm_app_service_slot_virtual_network_swift_connection" "eshoponweb_slots_ui_swift_connection" {
+  count          = length(azurerm_windows_web_app_slot.eshop_ui_web_app_slots)
+  slot_name      = azurerm_windows_web_app_slot.eshop_ui_web_app_slots[count.index].name
   app_service_id = azurerm_windows_web_app.eshop_ui_web_app.id
   subnet_id      = data.terraform_remote_state.network.outputs.eshoponweb_sqlserver_subnet_ids[0]
 }
