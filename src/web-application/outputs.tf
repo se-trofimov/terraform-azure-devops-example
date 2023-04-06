@@ -2,7 +2,7 @@ output "webapp_ui_webapp_name" {
    value = azurerm_windows_web_app.eshop_ui_web_app.name
 }
 
-output "eshop_admin_web_app_name" {
+output "webapp_admin_web_app_name" {
    value = azurerm_windows_web_app.eshop_admin_web_app.name
 }
 
