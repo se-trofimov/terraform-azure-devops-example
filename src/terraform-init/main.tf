@@ -1,4 +1,3 @@
-
 locals {
   environments = ["dev1", "dev2", "stage", "production"]
 }
