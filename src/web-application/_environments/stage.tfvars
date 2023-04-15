@@ -5,3 +5,5 @@ eshopwebapp_admin_plan_tier  = "S1"
 eshop_admin_web_app_settings = {
   ASPNETCORE_ENVIRONMENT = "Development"
 }
+
+eshopwebapp_ui_count = 2

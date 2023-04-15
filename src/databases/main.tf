@@ -1,12 +1,4 @@
-data "terraform_remote_state" "network" {
-  backend = "azurerm"
-  config = {
-    resource_group_name  = "terraform-backend-rg"
-    storage_account_name = "eshopterraformbackendsa"
-    container_name       = "terraform-state-${var.environment}-container"
-    key                  = "network/terraform.tfstate"
-  }
-}
+data "azurerm_client_config" "current" {}
 
 resource "azurerm_resource_group" "sql_rg" {
   name     = "${var.environment}-databases-rg"
@@ -21,10 +13,10 @@ resource "azurerm_mssql_server" "eshoponweb_sqlserver" {
   administrator_login          = var.eshoponweb_sqlserver_login
   administrator_login_password = var.eshoponweb_sqlserver_password
 
-  azuread_administrator {
-    login_username = "Azure AD Admin"
-    object_id      = "677a4f85-0d7f-4d11-b798-47d7a0099660"
-  }
+  # azuread_administrator {
+  #   login_username = "Azure AD Admin"
+  #   object_id      = "677a4f85-0d7f-4d11-b798-47d7a0099660"
+  # }
 }
 
 resource "azurerm_mssql_database" "eshoponweb_db" {
@@ -50,11 +42,4 @@ resource "azurerm_mssql_database" "eshoponweb_identity_db" {
   storage_account_type        = "Local"
   min_capacity                = var.eshoponweb_sqlserver_sku == "Basic" ? 0 : 0.5
   auto_pause_delay_in_minutes = var.eshoponweb_sqlserver_sku == "Basic" ? 0 : 60
-}
-
-resource "azurerm_mssql_virtual_network_rule" "eshoponweb_sqlserver_rules" {
-  count     = 2
-  name      = "eshoponweb-sqlserver-network-rule-${count.index + 1}"
-  server_id = azurerm_mssql_server.eshoponweb_sqlserver.id
-  subnet_id = data.terraform_remote_state.network.outputs.eshoponweb_sqlserver_subnet_ids[count.index]
 }
