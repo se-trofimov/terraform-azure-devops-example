@@ -8,3 +8,8 @@ variable "location" {
   type        = string
   default     = "West Europe"
 }
+
+variable "client_secret" {
+  description = "Azure AD client secret"
+  type        = string
+}

@@ -14,7 +14,7 @@ resource "azurerm_mssql_server" "eshoponweb_sqlserver" {
   administrator_login_password = var.eshoponweb_sqlserver_password
   azuread_administrator {
     login_username = "Azure AD Admin"
-    object_id      = "677a4f85-0d7f-4d11-b798-47d7a0099660"
+    object_id      = data.azurerm_client_config.current.object_id
   }
 }
 
